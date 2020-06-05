@@ -1,0 +1,9 @@
+{
+  "files": [
+    "index.ts",
+    "extract.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
