@@ -3,7 +3,6 @@
 exports.__esModule = true;
 var extract_1 = require("./extract");
 var _a = require('kleur'), green = _a.green, bold = _a.bold;
-var boxen = require('boxen');
 var myArgs = process.argv.slice(2);
 if (myArgs.length) {
     console.log(myArgs);
@@ -25,7 +24,11 @@ else {
     showHelpMessage();
 }
 function showHelpMessage() {
-    console.log(boxen(bold('Typescript Node Graph'), { padding: 1, borderColor: 'green', borderStyle: 'round' }));
+    console.log(green('╭───────────────────────────╮'));
+    console.log(green('│                           │'));
+    console.log(green('│   ') + bold('Typescript Node Graph') + green('   │'));
+    console.log(green('│                           │'));
+    console.log(green('╰───────────────────────────╯'));
     console.log('Please provide a list of input files and/or folders');
     console.log('e.g. `'
         + green('myFile.ts') + '`, `'

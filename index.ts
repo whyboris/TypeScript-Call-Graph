@@ -4,8 +4,6 @@ import { processFiles } from './extract';
 
 const { green, bold } = require('kleur');
 
-const boxen = require('boxen');
-
 const myArgs = process.argv.slice(2);
 
 if (myArgs.length) {
@@ -32,7 +30,12 @@ if (myArgs.length) {
 }
 
 function showHelpMessage(): void {
-  console.log(boxen(bold('Typescript Node Graph'), { padding: 1, borderColor: 'green', borderStyle: 'round', }));
+  console.log(green('╭───────────────────────────╮'));
+  console.log(green('│                           │'));
+  console.log(green('│   ') + bold('Typescript Node Graph') + green('   │'));
+  console.log(green('│                           │'));
+  console.log(green('╰───────────────────────────╯'));
+
   console.log('Please provide a list of input files and/or folders');
   console.log('e.g. `'
     + green('myFile.ts') + '`, `'

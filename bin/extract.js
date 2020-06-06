@@ -3,7 +3,6 @@ exports.__esModule = true;
 exports.processFiles = void 0;
 var ts = require("typescript");
 var fs = require('fs');
-// const filenames = ['ex.ts', 'ex2.ts'];
 var functionsToIgnore = []; // optionally ['require', 'parseInt', 'exec', 'reject', 'resolve'];
 var allFunctions = [];
 var calledFunctions = new Map();
