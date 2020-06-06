@@ -37,7 +37,7 @@ function extractFunctionCalls(node, sourceFile, indentLevel) {
             updateCalledFunctions(calledFunction);
         }
     }
-    logThings(node, sourceFile, indentLevel);
+    // logNode(node, sourceFile, indentLevel);
     node.forEachChild(function (child) { return extractFunctionCalls(child, sourceFile, indentLevel + 1); });
 }
 /**
@@ -46,7 +46,7 @@ function extractFunctionCalls(node, sourceFile, indentLevel) {
  * @param sourceFile
  * @param indentLevel
  */
-function logThings(node, sourceFile, indentLevel) {
+function logNode(node, sourceFile, indentLevel) {
     var indentation = "-".repeat(indentLevel);
     var syntaxKind = ts.SyntaxKind[node.kind];
     var nodeText = node.getText(sourceFile).split('\n')[0];
@@ -81,7 +81,7 @@ function processFiles(filenames) {
     // instead of: extractFunctionCalls(sourceFile, 0, sourceFile);
     // grab all the root nodes first
     // then do recursion for each
-    filenames.filter(function (file) { return file.endsWith('ts'); }).forEach(function (filename) {
+    filenames.forEach(function (filename) {
         var rootNodes = [];
         var codeAsString = fs.readFileSync(filename).toString();
         var sourceFile = ts.createSourceFile(filename, codeAsString, ts.ScriptTarget.Latest);

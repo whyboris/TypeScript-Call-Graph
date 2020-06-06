@@ -6,9 +6,13 @@ const { green, bold } = require('kleur');
 
 const myArgs = process.argv.slice(2);
 
-if (myArgs.length) {
+const onlyTypescript: string[] = myArgs.filter(file => file.endsWith('ts'));
 
-  console.log(myArgs);
+const withoutNodeModules: string[] = onlyTypescript.filter(file => !file.includes('node_modules'));
+
+if (withoutNodeModules.length) {
+
+  console.log(withoutNodeModules);
 
   var inquirer = require('inquirer');
 
@@ -39,12 +43,15 @@ function showHelpMessage(): void {
   console.log('Please provide a list of input files and/or folders');
   console.log('e.g. `'
     + green('myFile.ts') + '`, `'
-    + green('*.ts`') + ', `'
-    + green('**/*.ts`') + ', `'
-    + green('myFolder/*.ts') + '`');
-  console.log('or any combination of the above, like `' + green('myFile.ts myFolder/*.ts') + '`');
+    + green('*') + '`, `'
+    + green('**/*') + '`, `'
+    + green('myFolder/*') + '`');
+  console.log('or any combination of the above, like `' + green('myFile.ts myFolder/*') + '`');
 }
 
+/**
+ * If user confirms the files they want to analyze, proceed
+ */
 function proceed(): void {
-  processFiles(myArgs);
+  processFiles(withoutNodeModules);
 }
