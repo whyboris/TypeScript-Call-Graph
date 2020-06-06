@@ -46,6 +46,5 @@ function showHelpMessage(): void {
 }
 
 function proceed(): void {
-  console.log('do some stuff');
   processFiles(myArgs);
 }

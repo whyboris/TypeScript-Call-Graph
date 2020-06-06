@@ -16,7 +16,7 @@ Inside any directory, run:
 tcg
 ```
 
-It will remind you how to use the CLI: you need to provide specific files, or globs:
+It will remind you how to use the CLI: you need to provide specific files, or globs (wildcard paths):
 
 ```sh
 tcg myFile.ts folder/*.ts anotherFolder/**/*.ts

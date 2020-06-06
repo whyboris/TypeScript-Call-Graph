@@ -9,12 +9,16 @@
   "author": "Boris Yakubchik",
   "homepage": "https://yboris.dev",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whyboris/TypeScript-Call-Graph"
+  },
   "main": "bin/index.js",
   "bin": {
     "tcg": "./bin/index.js"
   },
   "scripts": {
-    "start": "tsc && mv index.js bin/index.js && mv extract.js bin/extract.js && node bin/index.js",
+    "start": "tsc && mv index.js bin/index.js && mv extract.js bin/extract.js && node bin/index.js *.ts",
     "test": "node bin/index.js *.ts",
     "global": "npm install -g ."
   },

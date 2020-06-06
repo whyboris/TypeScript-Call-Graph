@@ -26,9 +26,8 @@ function extractFunctionCalls(node: ts.Node, sourceFile: ts.SourceFile, indentLe
   if (ts.isFunctionDeclaration(node)) {
     node.forEachChild(child => {
       if (ts.isIdentifier(child)) {
-        const functionName: string = child.getText(sourceFile);
-        currentFunction = functionName;
-        allFunctions.push(functionName);
+        const declaredFunction: string = child.getText(sourceFile);
+        updateDeclaredFunctions(declaredFunction);
       }
     });
   }
@@ -43,13 +42,32 @@ function extractFunctionCalls(node: ts.Node, sourceFile: ts.SourceFile, indentLe
     }
   }
 
-  // Optional logging:
-  // const indentation = "-".repeat(indentLevel);
-  // const syntaxKind = ts.SyntaxKind[node.kind];
-  // const nodeText = node.getText(sourceFile).split('\n')[0];
-  // console.log(`${indentation}${syntaxKind}: ${nodeText}`);
+  // logThings(node, sourceFile, indentLevel);
 
   node.forEachChild(child => extractFunctionCalls(child, sourceFile, indentLevel + 1));
+}
+
+/**
+ * Log stuff if needed
+ * @param node
+ * @param sourceFile
+ * @param indentLevel
+ */
+function logThings(node: ts.Node, sourceFile: ts.SourceFile, indentLevel: number) {
+  const indentation = "-".repeat(indentLevel);
+  const syntaxKind = ts.SyntaxKind[node.kind];
+  const nodeText = node.getText(sourceFile).split('\n')[0];
+  console.log(`${indentation}${syntaxKind}: ${nodeText}`);
+}
+
+
+/**
+ * Update `allFunctions` and `currentFunction`
+ * @param declaredFunction
+ */
+function updateDeclaredFunctions(declaredFunction: string): void {
+  currentFunction = declaredFunction;
+  allFunctions.push(declaredFunction);
 }
 
 /**

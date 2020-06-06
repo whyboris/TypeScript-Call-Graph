@@ -23,9 +23,8 @@ function extractFunctionCalls(node, sourceFile, indentLevel) {
     if (ts.isFunctionDeclaration(node)) {
         node.forEachChild(function (child) {
             if (ts.isIdentifier(child)) {
-                var functionName = child.getText(sourceFile);
-                currentFunction = functionName;
-                allFunctions.push(functionName);
+                var declaredFunction = child.getText(sourceFile);
+                updateDeclaredFunctions(declaredFunction);
             }
         });
     }
@@ -38,12 +37,28 @@ function extractFunctionCalls(node, sourceFile, indentLevel) {
             updateCalledFunctions(calledFunction);
         }
     }
-    // Optional logging:
-    // const indentation = "-".repeat(indentLevel);
-    // const syntaxKind = ts.SyntaxKind[node.kind];
-    // const nodeText = node.getText(sourceFile).split('\n')[0];
-    // console.log(`${indentation}${syntaxKind}: ${nodeText}`);
+    logThings(node, sourceFile, indentLevel);
     node.forEachChild(function (child) { return extractFunctionCalls(child, sourceFile, indentLevel + 1); });
+}
+/**
+ * Log stuff if needed
+ * @param node
+ * @param sourceFile
+ * @param indentLevel
+ */
+function logThings(node, sourceFile, indentLevel) {
+    var indentation = "-".repeat(indentLevel);
+    var syntaxKind = ts.SyntaxKind[node.kind];
+    var nodeText = node.getText(sourceFile).split('\n')[0];
+    console.log("" + indentation + syntaxKind + ": " + nodeText);
+}
+/**
+ * Update `allFunctions` and `currentFunction`
+ * @param declaredFunction
+ */
+function updateDeclaredFunctions(declaredFunction) {
+    currentFunction = declaredFunction;
+    allFunctions.push(declaredFunction);
 }
 /**
  * Update `calledFunctions` map with current called function name

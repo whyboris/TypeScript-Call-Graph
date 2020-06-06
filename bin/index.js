@@ -38,6 +38,5 @@ function showHelpMessage() {
     console.log('or any combination of the above, like `' + green('myFile.ts myFolder/*.ts') + '`');
 }
 function proceed() {
-    console.log('do some stuff');
     extract_1.processFiles(myArgs);
 }
