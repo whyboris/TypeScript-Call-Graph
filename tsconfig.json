@@ -1,9 +1,13 @@
 {
   "files": [
     "index.ts",
-    "extract.ts"
+    "extract.ts",
+    "convert.ts"
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "compilerOptions": {
+    "outDir": "./bin"
+  }
 }

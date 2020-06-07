@@ -2,6 +2,7 @@
 exports.__esModule = true;
 exports.processFiles = void 0;
 var ts = require("typescript");
+var convert_1 = require("./convert");
 var fs = require('fs');
 var functionsToIgnore = []; // optionally ['require', 'parseInt', 'exec', 'reject', 'resolve'];
 var allFunctions = [];
@@ -108,7 +109,11 @@ function processFiles(filenames) {
         calledFunctions.set(key, value.filter(function (calledFunc) {
             return allFunctions.includes(calledFunc);
         }));
+        if (!calledFunctions.get(key).length) {
+            calledFunctions["delete"](key);
+        }
     });
     console.log(calledFunctions);
+    convert_1.convertForD3(calledFunctions);
 }
 exports.processFiles = processFiles;

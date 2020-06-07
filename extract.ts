@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import { convertForD3 } from "./convert";
 const fs = require('fs');
 
 const functionsToIgnore: string[] = []; // optionally ['require', 'parseInt', 'exec', 'reject', 'resolve'];
@@ -128,8 +129,12 @@ export function processFiles(filenames: string[]) {
     calledFunctions.set(key, value.filter((calledFunc: string) => {
       return allFunctions.includes(calledFunc);
     }));
+    if (!calledFunctions.get(key).length) {
+      calledFunctions.delete(key);
+    }
   });
 
   console.log(calledFunctions);
 
+  convertForD3(calledFunctions);
 }

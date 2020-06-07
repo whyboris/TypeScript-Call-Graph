@@ -18,7 +18,7 @@
     "tcg": "./bin/index.js"
   },
   "scripts": {
-    "start": "tsc && mv index.js bin/index.js && mv extract.js bin/extract.js && node bin/index.js *.ts",
+    "start": "tsc && node bin/index.js *.ts",
     "test": "node bin/index.js *.ts",
     "global": "npm install -g ."
   },
