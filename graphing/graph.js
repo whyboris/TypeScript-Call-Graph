@@ -4,6 +4,19 @@ export default function define(runtime, observer) {
 
   main.builtin("FileAttachment", runtime.fileAttachments(() => new URL("./temp", import.meta.url)));
 
+  main.variable(observer()).define(["html"], function(html) {
+
+    // setTimeout(() => {
+    //   const levels = main._scope.get('temporaryHackName')._value;
+    //   console.log(levels);
+    // }, 1000);
+
+    return (
+      html`<div class="heading">Call Graph</div>`
+    )
+
+  });
+
   main
     .variable(observer())
     .define(["svg", "width", "data", "color"], function (
@@ -13,6 +26,19 @@ export default function define(runtime, observer) {
       color
     ) {
       return svg`<svg width="${width}" height="${data.layout.height}">
+
+        <style>
+          text {
+            font-family: sans-serif;
+            font-size: 10px;
+          }
+          .node {
+            stroke-linecap: round;
+          }
+          .link {
+            fill: none;
+          }
+        </style>
 
         ${data.bundles.map((b) => {
           let d = b.links
