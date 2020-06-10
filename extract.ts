@@ -115,6 +115,7 @@ export function processFiles(filenames: string[]) {
   calledFunctions.delete(undefined);
 
   // Output
+  console.log('');
   console.log('======================================');
   console.log(allFunctions);
   console.log('--------------------------------------');
@@ -136,5 +137,5 @@ export function processFiles(filenames: string[]) {
 
   console.log(calledFunctions);
 
-  convertForD3(calledFunctions);
+  return calledFunctions;
 }

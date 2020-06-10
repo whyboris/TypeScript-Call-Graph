@@ -4,6 +4,7 @@ exports.__esModule = true;
 var open = require("open");
 var _a = require('kleur'), green = _a.green, bold = _a.bold;
 var extract_1 = require("./extract");
+var convert_1 = require("./convert");
 var myArgs = process.argv.slice(2);
 var onlyTypescript = myArgs.filter(function (file) { return file.endsWith('ts'); });
 var withoutNodeModules = onlyTypescript.filter(function (file) { return !file.includes('node_modules'); });
@@ -44,7 +45,8 @@ function showHelpMessage() {
  * If user confirms the files they want to analyze, proceed
  */
 function proceed() {
-    extract_1.processFiles(withoutNodeModules);
+    var functionMap = extract_1.processFiles(withoutNodeModules);
+    convert_1.convertForD3(functionMap);
     serveStuff();
 }
 function serveStuff() {

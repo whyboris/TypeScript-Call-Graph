@@ -4,6 +4,7 @@ import open = require('open');
 const { green, bold } = require('kleur');
 
 import { processFiles } from './extract';
+import { convertForD3 } from './convert';
 
 const myArgs = process.argv.slice(2);
 
@@ -54,7 +55,9 @@ function showHelpMessage(): void {
  * If user confirms the files they want to analyze, proceed
  */
 function proceed(): void {
-  processFiles(withoutNodeModules);
+  const functionMap: Map<string, string[]> = processFiles(withoutNodeModules);
+
+  convertForD3(functionMap);
 
   serveStuff();
 }

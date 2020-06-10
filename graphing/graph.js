@@ -56,6 +56,8 @@ export default function define(runtime, observer) {
 
     const levels = main._scope.get('temporaryHackName')._value;
 
+    // const levels = JSON.parse('[[{"id":"abc"}],[{"id":"abc2","parents":["abc"]},{"id":"abc3"}],[{"id": "lol", "parents": ["abc3", "abc2"]}]]');
+
     // precompute level depth
     levels.forEach((l, i) => l.forEach((n) => (n.level = i)));
 

@@ -67,9 +67,11 @@ function convertForD3(calledFunctions) {
     final.push([{ id: 'proceed' }]);
     // all next cases generate automatically
     generateNextLevel(['proceed'], 10);
-    console.log('====================');
+    console.log('======================================');
     console.log(final);
+    console.log('--------------------------------------');
     console.log(JSON.stringify(final));
+    console.log('');
     try {
         fs.writeFileSync('./graphing/temp', JSON.stringify(final));
     }

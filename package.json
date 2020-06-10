@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "tsc && node bin/index.js index.ts",
-    "test": "node bin/index.js index.ts",
+    "test": "node bin/index.js index.ts extract.ts convert.ts",
     "global": "npm install -g ."
   },
   "dependencies": {

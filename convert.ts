@@ -81,9 +81,11 @@ export function convertForD3(calledFunctions: Map<string, string[]>) {
   // all next cases generate automatically
   generateNextLevel(['proceed'], 10);
 
-  console.log('====================');
+  console.log('======================================');
   console.log(final);
+  console.log('--------------------------------------');
   console.log(JSON.stringify(final));
+  console.log('');
 
   try {
     fs.writeFileSync('./graphing/temp', JSON.stringify(final))
