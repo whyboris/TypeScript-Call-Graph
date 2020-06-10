@@ -8,7 +8,9 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
 };
 exports.__esModule = true;
 exports.convertForD3 = void 0;
+var fs = require('fs');
 var final = [];
+var calledAlready = []; // to keep track of what has been called; prevent reculsion!
 var myMap;
 /**
  * Take a parent function and return all children in proper format
@@ -19,7 +21,9 @@ function generateFromOneParent(parent) {
     if (myMap.has(parent)) {
         var children = myMap.get(parent);
         children.forEach(function (element) {
-            newElements.push({ id: element, parents: [parent] });
+            if (!calledAlready.includes(element)) { // PREVENT RECURSION !
+                newElements.push({ id: element, parents: [parent] });
+            }
         });
     }
     return newElements;
@@ -27,8 +31,13 @@ function generateFromOneParent(parent) {
 /**
  * Recursive function to generate each subsequent level
  * @param parents
+ * @param stackDepth - maximum depth of calls to trace
  */
-function generateNextLevel(parents) {
+function generateNextLevel(parents, stackDepth) {
+    calledAlready.push.apply(calledAlready, parents);
+    if (stackDepth === 0) {
+        return;
+    }
     // Generate the NodeForGraphing[] for this 'level'
     var thisLevel = [];
     parents.forEach(function (parent) {
@@ -45,7 +54,7 @@ function generateNextLevel(parents) {
         }
     });
     if (nextLevel.length) {
-        generateNextLevel(nextLevel);
+        generateNextLevel(nextLevel, stackDepth - 1);
     }
 }
 /**
@@ -55,11 +64,17 @@ function generateNextLevel(parents) {
 function convertForD3(calledFunctions) {
     myMap = calledFunctions;
     // 1st case -- handle manually
-    final.push([{ id: 'openThisDamnFile' }]);
+    final.push([{ id: 'proceed' }]);
     // all next cases generate automatically
-    generateNextLevel(['openThisDamnFile']);
+    generateNextLevel(['proceed'], 10);
     console.log('====================');
     console.log(final);
     console.log(JSON.stringify(final));
+    try {
+        fs.writeFileSync('./graphing/temp', JSON.stringify(final));
+    }
+    catch (err) {
+        console.error(err);
+    }
 }
 exports.convertForD3 = convertForD3;

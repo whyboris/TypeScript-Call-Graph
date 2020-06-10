@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 "use strict";
 exports.__esModule = true;
-var extract_1 = require("./extract");
+var open = require("open");
 var _a = require('kleur'), green = _a.green, bold = _a.bold;
+var extract_1 = require("./extract");
 var myArgs = process.argv.slice(2);
 var onlyTypescript = myArgs.filter(function (file) { return file.endsWith('ts'); });
 var withoutNodeModules = onlyTypescript.filter(function (file) { return !file.includes('node_modules'); });
@@ -44,4 +45,21 @@ function showHelpMessage() {
  */
 function proceed() {
     extract_1.processFiles(withoutNodeModules);
+    serveStuff();
+}
+function serveStuff() {
+    var handler = require('serve-handler');
+    var http = require('http');
+    var server = http.createServer(function (request, response) {
+        return handler(request, response, { public: './graphing' });
+    });
+    server.listen(3000, function () {
+        console.log(green('╭───────────────────────────╮'));
+        console.log(green('│      ') + 'Graph visible @ ' + green('     │'));
+        console.log(green('│  ') + ' http://localhost:3000' + green('   │'));
+        console.log(green('│      ') + 'Ctrl + C to quit ' + green('    │'));
+        console.log(green('╰───────────────────────────╯'));
+        var filePath = 'http://localhost:3000';
+        open(filePath);
+    });
 }

@@ -1,9 +1,13 @@
+const fs = require('fs')
+
 interface NodeForGraphing {
   id: string,
   parents: string[],
 }
 
 const final = [];
+
+const calledAlready = []; // to keep track of what has been called; prevent reculsion!
 
 let myMap: Map<string, string[]>;
 
@@ -18,7 +22,9 @@ function generateFromOneParent(parent: string): NodeForGraphing[] {
     const children =  myMap.get(parent);
 
     children.forEach((element) => {
-      newElements.push({ id: element, parents: [parent] });
+      if (!calledAlready.includes(element)) { // PREVENT RECURSION !
+        newElements.push({ id: element, parents: [parent] });
+      }
     });
   }
 
@@ -28,8 +34,15 @@ function generateFromOneParent(parent: string): NodeForGraphing[] {
 /**
  * Recursive function to generate each subsequent level
  * @param parents
+ * @param stackDepth - maximum depth of calls to trace
  */
-function generateNextLevel(parents: string[]): void {
+function generateNextLevel(parents: string[], stackDepth: number): void {
+
+  calledAlready.push(...parents);
+
+  if (stackDepth === 0) {
+    return;
+  }
 
   // Generate the NodeForGraphing[] for this 'level'
   let thisLevel = [];
@@ -47,12 +60,12 @@ function generateNextLevel(parents: string[]): void {
 
   parents.forEach(parent => {
     if (myMap.has(parent)) {
-      nextLevel.push(...myMap.get(parent))
+      nextLevel.push(...myMap.get(parent));
     }
   });
 
   if (nextLevel.length) {
-    generateNextLevel(nextLevel);
+    generateNextLevel(nextLevel, stackDepth - 1);
   }
 }
 
@@ -64,12 +77,18 @@ export function convertForD3(calledFunctions: Map<string, string[]>) {
   myMap = calledFunctions;
 
   // 1st case -- handle manually
-  final.push([{ id: 'openThisDamnFile' }]);
+  final.push([{ id: 'proceed' }]);
   // all next cases generate automatically
-  generateNextLevel(['openThisDamnFile']);
+  generateNextLevel(['proceed'], 10);
 
   console.log('====================');
   console.log(final);
   console.log(JSON.stringify(final));
+
+  try {
+    fs.writeFileSync('./graphing/temp', JSON.stringify(final))
+  } catch (err) {
+    console.error(err)
+  }
 
 }

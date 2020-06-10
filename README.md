@@ -30,6 +30,7 @@ Suggestions or PRs for how to improve this CLI are very welcome 	🙇
 
 ### Thank you
 
+- [Matteo Abrate](https://observablehq.com/@nitaku/tangled-tree-visualization-ii) for graphing code I could use
 - [Tutorial](https://convincedcoder.com/2019/01/19/Processing-TypeScript-using-TypeScript/) and code for processing TypeScript (AST)
 - [Tutorial](https://developer.okta.com/blog/2019/06/18/command-line-app-with-nodejs) for creating a *CLI*
 - [TS-Call-Graph](https://github.com/Deskbot/TS-Call-Graph) for inspiration

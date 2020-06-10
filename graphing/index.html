@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+  <title>TypeScript Call Graph</title>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <style>
+    .observablehq--inspect {
+      display: none;
+    }
+    text {
+      font-family: sans-serif;
+      font-size: 10px;
+    }
+    .node {
+      stroke-linecap: round;
+    }
+    .link {
+      fill: none;
+    }
+  </style>
+</head>
+
+<body>
+  <script type="module">
+    import define from "./index.js";
+    import { Runtime, Library, Inspector } from "./runtime.js";
+
+    const runtime = new Runtime();
+    const main = runtime.module(define, Inspector.into(document.body));
+  </script>
+</body>
