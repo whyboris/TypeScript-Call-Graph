@@ -1,5 +1,4 @@
 import * as ts from "typescript";
-import { convertForD3 } from "./convert";
 const fs = require('fs');
 
 const functionsToIgnore: string[] = []; // optionally ['require', 'parseInt', 'exec', 'reject', 'resolve'];
