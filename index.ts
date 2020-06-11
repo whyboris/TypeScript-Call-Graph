@@ -5,6 +5,7 @@ const { green, bold } = require('kleur');
 
 import { processFiles } from './extract';
 import { convertForD3 } from './convert';
+import { generateGraphViz } from './graphviz';
 
 const myArgs = process.argv.slice(2);
 
@@ -58,6 +59,8 @@ function proceed(): void {
   const functionMap: Map<string, string[]> = processFiles(withoutNodeModules);
 
   convertForD3(functionMap);
+
+  generateGraphViz(functionMap);
 
   serveStuff();
 }

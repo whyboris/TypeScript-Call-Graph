@@ -2,7 +2,8 @@
   "files": [
     "index.ts",
     "extract.ts",
-    "convert.ts"
+    "convert.ts",
+    "graphviz.ts"
   ],
   "exclude": [
     "node_modules"
