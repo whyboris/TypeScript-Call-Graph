@@ -4,6 +4,8 @@ export function generateGraphViz(functionMap: Map<string, string[]>) {
 
   const g = graphviz.digraph("G");
 
+  g.set("rankdir", "LR");
+
   functionMap.forEach((value, key) => {
     g.addNode(key);
   });

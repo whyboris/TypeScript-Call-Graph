@@ -4,6 +4,7 @@ exports.generateGraphViz = void 0;
 var graphviz = require('graphviz');
 function generateGraphViz(functionMap) {
     var g = graphviz.digraph("G");
+    g.set("rankdir", "LR");
     functionMap.forEach(function (value, key) {
         g.addNode(key);
     });
