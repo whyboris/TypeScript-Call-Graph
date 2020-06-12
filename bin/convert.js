@@ -8,10 +8,10 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
 };
 exports.__esModule = true;
 exports.convertForD3 = void 0;
-var fs = require('fs');
+// Some globals
+var myMap;
 var final = [];
 var calledAlready = []; // to keep track of what has been called; prevent reculsion!
-var myMap;
 /**
  * Take a parent function and return all children in proper format
  * @param parent
@@ -63,6 +63,8 @@ function generateNextLevel(parents, stackDepth) {
  */
 function convertForD3(calledFunctions) {
     myMap = calledFunctions;
+    final = [];
+    calledAlready = [];
     // 1st case -- handle manually
     final.push([{ id: 'proceed' }]);
     // all next cases generate automatically
@@ -72,11 +74,6 @@ function convertForD3(calledFunctions) {
     console.log('--------------------------------------');
     console.log(JSON.stringify(final));
     console.log('');
-    try {
-        fs.writeFileSync('./graphing/temp', JSON.stringify(final));
-    }
-    catch (err) {
-        console.error(err);
-    }
+    return final;
 }
 exports.convertForD3 = convertForD3;

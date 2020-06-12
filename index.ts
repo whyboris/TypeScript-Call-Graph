@@ -36,6 +36,9 @@ if (withoutNodeModules.length) {
   showHelpMessage();
 }
 
+/**
+ * Shown when user runs `tcg` without arguments
+ */
 function showHelpMessage(): void {
   console.log(green('╭───────────────────────────╮'));
   console.log(green('│                           │'));
@@ -58,30 +61,38 @@ function showHelpMessage(): void {
 function proceed(): void {
   const functionMap: Map<string, string[]> = processFiles(withoutNodeModules);
 
-  convertForD3(functionMap);
-
   generateGraphViz(functionMap);
 
-  serveStuff();
+  startServer(functionMap);
 }
 
+/**
+ * Start Express server with static files and API endpoints
+ * @param functionMap
+ */
+function startServer(functionMap): void {
 
+  const express = require('express');
+  const app = express();
 
-function serveStuff(): void {
-  const handler = require('serve-handler');
-  const http = require('http');
+  const path = require('path');
 
-  const server = http.createServer((request, response) => {
-    return handler(request, response, { public: './graphing' });
-  })
+  app.use(express.static(path.join(__dirname, '..', 'graphing')));
 
-  server.listen(3000, () => {
-    console.log(green('╭───────────────────────────╮'));
-    console.log(green('│      ') + 'Graph visible @ ' + green('     │'));
-    console.log(green('│  ') + ' http://localhost:3000' + green('   │'));
-    console.log(green('│      ') + 'Ctrl + C to quit ' + green('    │'));
-    console.log(green('╰───────────────────────────╯'));
-    const filePath: string = 'http://localhost:3000';
-    open(filePath);
+  app.get('/hi', function (req, res) {
+    res.json(convertForD3(functionMap));
   });
+
+  app.listen(3000)
+
+  const filePath: string = 'http://localhost:3000';
+
+  // Helpful message
+  console.log(green('╭───────────────────────────╮'));
+  console.log(green('│      ') + 'Graph visible @ ' + green('     │'));
+  console.log(green('│   ') +        filePath         + green('   │'));
+  console.log(green('│      ') + 'Ctrl + C to quit ' + green('    │'));
+  console.log(green('╰───────────────────────────╯'));
+
+  open(filePath);
 }

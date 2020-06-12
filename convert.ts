@@ -1,15 +1,12 @@
-const fs = require('fs')
-
 interface NodeForGraphing {
   id: string,
   parents: string[],
 }
 
-const final = [];
-
-const calledAlready = []; // to keep track of what has been called; prevent reculsion!
-
+// Some globals
 let myMap: Map<string, string[]>;
+let final = [];
+let calledAlready = []; // to keep track of what has been called; prevent reculsion!
 
 /**
  * Take a parent function and return all children in proper format
@@ -75,6 +72,8 @@ function generateNextLevel(parents: string[], stackDepth: number): void {
  */
 export function convertForD3(calledFunctions: Map<string, string[]>) {
   myMap = calledFunctions;
+  final = [];
+  calledAlready = [];
 
   // 1st case -- handle manually
   final.push([{ id: 'proceed' }]);
@@ -87,10 +86,5 @@ export function convertForD3(calledFunctions: Map<string, string[]>) {
   console.log(JSON.stringify(final));
   console.log('');
 
-  try {
-    fs.writeFileSync('./graphing/temp', JSON.stringify(final))
-  } catch (err) {
-    console.error(err)
-  }
-
+  return final;
 }

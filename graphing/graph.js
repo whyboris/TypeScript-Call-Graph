@@ -2,87 +2,75 @@
 export default function define(runtime, observer) {
   const main = runtime.module();
 
-  main.builtin("FileAttachment", runtime.fileAttachments(() => new URL("./temp", import.meta.url)));
+  main.builtin("FileAttachment", runtime.fileAttachments(() => new URL("http://localhost:3000/hi", import.meta.url)));
 
   main.variable(observer()).define(["html"], function(html) {
-
-    // setTimeout(() => {
-    //   const levels = main._scope.get('temporaryHackName')._value;
-    //   console.log(levels);
-    // }, 1000);
-
     return (
       html`<div class="heading">Call Graph</div>`
     )
-
   });
 
-  main
-    .variable(observer())
-    .define(["svg", "width", "data", "color"], function (
-      svg,
-      width,
-      data,
-      color
-    ) {
-      return svg`<svg width="${width}" height="${data.layout.height}">
+  main.variable(observer()).define(["svg", "width", "data", "color"], function (svg, width, data, color) {
+    return svg`<svg width="${width}" height="${data.layout.height}">
 
-        <style>
-          text {
-            font-family: sans-serif;
-            font-size: 10px;
-          }
-          .node {
-            stroke-linecap: round;
-          }
-          .link {
-            fill: none;
-          }
-        </style>
+      <style>
+        text {
+          font-family: sans-serif;
+          font-size: 10px;
+        }
+        .node {
+          stroke-linecap: round;
+        }
+        .link {
+          fill: none;
+        }
+      </style>
 
-        ${data.bundles.map((b) => {
-          let d = b.links
-            .map((l) => `
-              M${l.xt} ${l.yt}
-              L${l.xb - l.c1} ${l.yt}
-              A${l.c1} ${l.c1} 90 0 1 ${l.xb} ${l.yt + l.c1}
-              L${l.xb} ${l.ys - l.c2}
-              A${l.c2} ${l.c2} 90 0 0 ${l.xb + l.c2} ${l.ys}
-              L${l.xs} ${l.ys}`
-            )
-            .join("");
-          return `
-            <path class="link" d="${d}" stroke="white" stroke-width="5"/>
-            <path class="link" d="${d}" stroke="${color(b.id)}" stroke-width="2"/>
-          `;
-        })}
+      ${data.bundles.map((b) => {
+        let d = b.links
+          .map((l) => `
+            M${l.xt} ${l.yt}
+            L${l.xb - l.c1} ${l.yt}
+            A${l.c1} ${l.c1} 90 0 1 ${l.xb} ${l.yt + l.c1}
+            L${l.xb} ${l.ys - l.c2}
+            A${l.c2} ${l.c2} 90 0 0 ${l.xb + l.c2} ${l.ys}
+            L${l.xs} ${l.ys}`
+          )
+          .join("");
+        return `
+          <path class="link" d="${d}" stroke="white" stroke-width="5"/>
+          <path class="link" d="${d}" stroke="${color(b.id)}" stroke-width="2"/>
+        `;
+      })}
 
-        ${data.nodes.map(
-          (n) => `
-            <line class="node" stroke="black" stroke-width="8" x1="${n.x}" y1="${
-              n.y - n.height / 2
-            }" x2="${n.x}" y2="${n.y + n.height / 2}"/>
-            <line class="node" stroke="white" stroke-width="4" x1="${n.x}" y1="${
-              n.y - n.height / 2
-            }" x2="${n.x}" y2="${n.y + n.height / 2}"/>
+      ${data.nodes.map(
+        (n) => `
+          <line class="node" stroke="black" stroke-width="8" x1="${n.x}" y1="${
+            n.y - n.height / 2
+          }" x2="${n.x}" y2="${n.y + n.height / 2}"/>
+          <line class="node" stroke="white" stroke-width="4" x1="${n.x}" y1="${
+            n.y - n.height / 2
+          }" x2="${n.x}" y2="${n.y + n.height / 2}"/>
 
-            <text x="${n.x + 4}" y="${
-              n.y - n.height / 2 - 4
-            }" stroke="white" stroke-width="2">${n.id}</text>
-            <text x="${n.x + 4}" y="${n.y - n.height / 2 - 4}">${n.id}</text>
-          `
-        )}
+          <text x="${n.x + 4}" y="${
+            n.y - n.height / 2 - 4
+          }" stroke="white" stroke-width="2">${n.id}</text>
+          <text x="${n.x + 4}" y="${n.y - n.height / 2 - 4}">${n.id}</text>
+        `
+      )}
 
-      </svg>`;
-    });
+    </svg>`;
+  });
+
   main.variable(observer("data")).define("data", ["d3"], function (d3) {
 
     // console.log(main);
     // console.log(main._scope.get('temporaryHackName')._value);
+    // levels = JSON.parse('[[{"id":"abc"}],[{"id":"abc2","parents":["abc"]},{"id":"abc3"}],[{"id": "lol", "parents": ["abc3", "abc2"]}]]');
 
-    const levels = main._scope.get('temporaryHackName')._value;
+    let levels = main._scope.get('temporaryHackName')._value;
 
-    // const levels = JSON.parse('[[{"id":"abc"}],[{"id":"abc2","parents":["abc"]},{"id":"abc3"}],[{"id": "lol", "parents": ["abc3", "abc2"]}]]');
+    // console.log(levels);
 
     // precompute level depth
     levels.forEach((l, i) => l.forEach((n) => (n.level = i)));
