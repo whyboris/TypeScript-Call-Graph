@@ -61,8 +61,6 @@ function showHelpMessage(): void {
 function proceed(): void {
   const functionMap: Map<string, string[]> = processFiles(withoutNodeModules);
 
-  // generateGraphViz(functionMap);
-
   startServer(functionMap);
 }
 
@@ -78,6 +76,8 @@ function startServer(functionMap): void {
   const path = require('path');
 
   app.use(express.static(path.join(__dirname, '..', 'graphing')));
+  app.use('/graphviz', express.static(path.join(__dirname, '..', 'graphing/graphviz')));
+  app.use('/cascade', express.static(path.join(__dirname, '..', 'graphing/cascade')));
 
   app.get('/hi', function (req, res) {
     res.json(convertForD3(functionMap));
