@@ -20,6 +20,13 @@
 </head>
 
 <body>
+
+  <script src="./d3.v5.min.js"></script>
+  <script src="./index.min.js"></script>
+  <script src="./d3-graphviz.js"></script>
+
+  <div id="graph" style="text-align: center;"></div>
+
   <script type="module">
     import define from "./index.js";
     import { Runtime, Library, Inspector } from "./runtime.js";
@@ -64,11 +71,21 @@
 
       };
 
-      const c = document.createElement("img");
-      c.src = "temp.png";
-      document.body.appendChild(c);
+      // const c = document.createElement("img");
+      // c.src = "temp.png";
+      // document.body.appendChild(c);
 
     }, 350);
+
+    const url = './dot';
+
+    fetch(url).then((response) => {
+        response.text().then((data) => {
+          d3.select("#graph").graphviz()
+              .renderDot(JSON.parse(data));
+        });
+      });
+
 
 </script>
 </body>

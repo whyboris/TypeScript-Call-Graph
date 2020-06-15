@@ -50,7 +50,7 @@ function showHelpMessage() {
  */
 function proceed() {
     var functionMap = extract_1.processFiles(withoutNodeModules);
-    graphviz_1.generateGraphViz(functionMap);
+    // generateGraphViz(functionMap);
     startServer(functionMap);
 }
 /**
@@ -64,6 +64,9 @@ function startServer(functionMap) {
     app.use(express.static(path.join(__dirname, '..', 'graphing')));
     app.get('/hi', function (req, res) {
         res.json(convert_1.convertForD3(functionMap));
+    });
+    app.get('/dot', function (req, res) {
+        res.json(graphviz_1.generateGraphViz(functionMap));
     });
     app.listen(3000);
     var filePath = 'http://localhost:3000';

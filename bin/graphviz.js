@@ -13,12 +13,7 @@ function generateGraphViz(functionMap) {
             g.addEdge(key, child);
         });
     });
-    console.log(g.to_dot());
-    try {
-        g.output("png", "graphing/temp.png");
-    }
-    catch (err) {
-        console.log('GraphViz not installed');
-    }
+    // console.log(g.to_dot());
+    return g.to_dot();
 }
 exports.generateGraphViz = generateGraphViz;

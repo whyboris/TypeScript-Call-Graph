@@ -16,13 +16,9 @@ export function generateGraphViz(functionMap: Map<string, string[]>) {
     });
   });
 
-  console.log(g.to_dot());
+  // console.log(g.to_dot());
 
-  try {
-    g.output("png", "graphing/temp.png");
-  } catch (err) {
-    console.log('GraphViz not installed');
-  }
+  return g.to_dot();
 }
 
 

@@ -61,7 +61,7 @@ function showHelpMessage(): void {
 function proceed(): void {
   const functionMap: Map<string, string[]> = processFiles(withoutNodeModules);
 
-  generateGraphViz(functionMap);
+  // generateGraphViz(functionMap);
 
   startServer(functionMap);
 }
@@ -81,6 +81,10 @@ function startServer(functionMap): void {
 
   app.get('/hi', function (req, res) {
     res.json(convertForD3(functionMap));
+  });
+
+  app.get('/dot', function (req, res) {
+    res.json(generateGraphViz(functionMap));
   });
 
   app.listen(3000)
