@@ -27,8 +27,8 @@
   <div id="graph" style="text-align: center;"></div>
 
   <script type="module">
-    import define from "./index.js";
-    import { Runtime, Library, Inspector } from "./runtime.js";
+    import define from "./graph.js";
+    import { Runtime, Library, Inspector } from "/vendor/runtime.js";
 
     const runtime = new Runtime();
     const main = runtime.module(define, Inspector.into(document.body));

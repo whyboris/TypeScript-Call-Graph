@@ -1,6 +1,8 @@
 import * as ts from "typescript";
 const fs = require('fs');
 
+const { green, red } = require('kleur');
+
 const functionsToIgnore: string[] = []; // optionally ['require', 'parseInt', 'exec', 'reject', 'resolve'];
 
 const allFunctions: string[] = [];
@@ -96,18 +98,29 @@ export function processFiles(filenames: string[]) {
 
     const rootNodes: ts.Node[] = [];
 
-    const codeAsString: string = fs.readFileSync(filename).toString();
+    let codeAsString: string;
 
-    const sourceFile: ts.SourceFile = ts.createSourceFile(filename, codeAsString, ts.ScriptTarget.Latest);
+    let skipFile: boolean = false;
 
-    sourceFile.forEachChild((child: ts.Node) => {
-      rootNodes.push(child)
-    });
+    try {
+      codeAsString = fs.readFileSync(filename).toString();
+    } catch (err) {
+      console.log('File', green(filename), red('not found!'), ' - skipping');
+      skipFile = true;
+    }
 
-    rootNodes.forEach((node: ts.Node) => {
-      currentFunction = undefined;
-      extractFunctionCalls(node, sourceFile, 1);
-    });
+    if (!skipFile) {
+      const sourceFile: ts.SourceFile = ts.createSourceFile(filename, codeAsString, ts.ScriptTarget.Latest);
+
+      sourceFile.forEachChild((child: ts.Node) => {
+        rootNodes.push(child)
+      });
+
+      rootNodes.forEach((node: ts.Node) => {
+        currentFunction = undefined;
+        extractFunctionCalls(node, sourceFile, 1);
+      });
+    }
 
   });
 
@@ -136,5 +149,10 @@ export function processFiles(filenames: string[]) {
 
   console.log(calledFunctions);
 
-  return calledFunctions;
+  const functions = {
+    all: allFunctions,
+    called: calledFunctions,
+  }
+
+  return functions;
 }

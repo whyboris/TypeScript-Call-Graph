@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Arc Diagram</title>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<style>
+  .observablehq--inspect {
+    display: none;
+  }
+
+  text {
+    cursor: initial;
+    user-select: none;
+  }
+</style>
+
+<body>
+  <script type="module">
+
+    import define from "./arc.js";
+    import { Runtime, Library, Inspector } from "/vendor/runtime.js";
+
+    const runtime = new Runtime();
+    const main = runtime.module(define, Inspector.into(document.body));
+
+  </script>
+</body>
+
+</html>

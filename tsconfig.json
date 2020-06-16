@@ -1,9 +1,11 @@
 {
   "files": [
-    "index.ts",
+    "arc.ts",
+    "cascade.ts",
     "extract.ts",
-    "convert.ts",
-    "graphviz.ts"
+    "graphviz.ts",
+    "helper.ts",
+    "index.ts"
   ],
   "exclude": [
     "node_modules"

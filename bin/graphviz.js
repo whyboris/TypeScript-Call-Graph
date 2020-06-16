@@ -1,8 +1,8 @@
 "use strict";
 exports.__esModule = true;
-exports.generateGraphViz = void 0;
+exports.convertForGraphViz = void 0;
 var graphviz = require('graphviz');
-function generateGraphViz(functionMap) {
+function convertForGraphViz(functionMap) {
     var g = graphviz.digraph("G");
     g.set("rankdir", "LR");
     functionMap.forEach(function (value, key) {
@@ -13,7 +13,6 @@ function generateGraphViz(functionMap) {
             g.addEdge(key, child);
         });
     });
-    // console.log(g.to_dot());
     return g.to_dot();
 }
-exports.generateGraphViz = generateGraphViz;
+exports.convertForGraphViz = convertForGraphViz;

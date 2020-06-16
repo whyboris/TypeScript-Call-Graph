@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
 import open = require('open');
-const { green, bold } = require('kleur');
 
 import { processFiles } from './extract';
-import { convertForD3 } from './convert';
-import { generateGraphViz } from './graphviz';
+
+import { convertForArc } from './arc';
+import { convertForCascade } from './cascade';
+import { convertForGraphViz } from './graphviz';
+import { showHelpMessage, showServerRunning } from './helper';
 
 const myArgs = process.argv.slice(2);
 
@@ -37,38 +39,19 @@ if (withoutNodeModules.length) {
 }
 
 /**
- * Shown when user runs `tcg` without arguments
- */
-function showHelpMessage(): void {
-  console.log(green('╭───────────────────────────╮'));
-  console.log(green('│                           │'));
-  console.log(green('│   ') + bold('Typescript Node Graph') + green('   │'));
-  console.log(green('│                           │'));
-  console.log(green('╰───────────────────────────╯'));
-
-  console.log('Please provide a list of input files and/or folders');
-  console.log('e.g. `'
-    + green('myFile.ts') + '`, `'
-    + green('*') + '`, `'
-    + green('**/*') + '`, `'
-    + green('myFolder/*') + '`');
-  console.log('or any combination of the above, like `' + green('myFile.ts myFolder/*') + '`');
-}
-
-/**
  * If user confirms the files they want to analyze, proceed
  */
 function proceed(): void {
-  const functionMap: Map<string, string[]> = processFiles(withoutNodeModules);
+  const functions = processFiles(withoutNodeModules);
 
-  startServer(functionMap);
+  startServer(functions.all, functions.called);
 }
 
 /**
  * Start Express server with static files and API endpoints
  * @param functionMap
  */
-function startServer(functionMap): void {
+function startServer(allFunctions: string[], functionMap: Map<string, string[]>): void {
 
   const express = require('express');
   const app = express();
@@ -76,27 +59,21 @@ function startServer(functionMap): void {
   const path = require('path');
 
   app.use(express.static(path.join(__dirname, '..', 'graphing')));
+
+  app.use('/arc',      express.static(path.join(__dirname, '..', 'graphing/arc')));
+  app.use('/cascade',  express.static(path.join(__dirname, '..', 'graphing/cascade')));
   app.use('/graphviz', express.static(path.join(__dirname, '..', 'graphing/graphviz')));
-  app.use('/cascade', express.static(path.join(__dirname, '..', 'graphing/cascade')));
+  app.use('/vendor',   express.static(path.join(__dirname, '..', 'graphing/vendor')));
 
-  app.get('/hi', function (req, res) {
-    res.json(convertForD3(functionMap));
-  });
-
-  app.get('/dot', function (req, res) {
-    res.json(generateGraphViz(functionMap));
-  });
+  app.get('/arcAPI',      function (req, res) { res.json(convertForArc(allFunctions, functionMap)) });
+  app.get('/cascadeAPI',  function (req, res) { res.json(convertForCascade(functionMap))  });
+  app.get('/graphvizAPI', function (req, res) { res.json(convertForGraphViz(functionMap)) });
 
   app.listen(3000)
 
   const filePath: string = 'http://localhost:3000';
 
-  // Helpful message
-  console.log(green('╭───────────────────────────╮'));
-  console.log(green('│      ') + 'Graph visible @ ' + green('     │'));
-  console.log(green('│   ') +        filePath         + green('   │'));
-  console.log(green('│      ') + 'Ctrl + C to quit ' + green('    │'));
-  console.log(green('╰───────────────────────────╯'));
+  showServerRunning(filePath);
 
   open(filePath);
 }

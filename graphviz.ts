@@ -1,6 +1,6 @@
 const graphviz = require('graphviz');
 
-export function generateGraphViz(functionMap: Map<string, string[]>) {
+export function convertForGraphViz(functionMap: Map<string, string[]>) {
 
   const g = graphviz.digraph("G");
 
@@ -15,8 +15,6 @@ export function generateGraphViz(functionMap: Map<string, string[]>) {
       g.addEdge(key, child);
     });
   });
-
-  // console.log(g.to_dot());
 
   return g.to_dot();
 }

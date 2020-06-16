@@ -70,7 +70,7 @@ function generateNextLevel(parents: string[], stackDepth: number): void {
  * Convert the call map to format D3 wants
  * @param calledFunctions
  */
-export function convertForD3(calledFunctions: Map<string, string[]>) {
+export function convertForCascade(calledFunctions: Map<string, string[]>) {
   myMap = calledFunctions;
   final = [];
   calledAlready = [];
@@ -79,12 +79,6 @@ export function convertForD3(calledFunctions: Map<string, string[]>) {
   final.push([{ id: 'proceed' }]);
   // all next cases generate automatically
   generateNextLevel(['proceed'], 10);
-
-  console.log('======================================');
-  console.log(final);
-  console.log('--------------------------------------');
-  console.log(JSON.stringify(final));
-  console.log('');
 
   return final;
 }

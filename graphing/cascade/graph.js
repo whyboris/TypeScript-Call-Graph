@@ -2,7 +2,7 @@
 export default function define(runtime, observer) {
   const main = runtime.module();
 
-  main.builtin("FileAttachment", runtime.fileAttachments(() => new URL("http://localhost:3000/hi", import.meta.url)));
+  main.builtin("FileAttachment", runtime.fileAttachments(() => new URL("http://localhost:3000/cascadeAPI", import.meta.url)));
 
   main.variable(observer()).define(["html"], function(html) {
     return (
