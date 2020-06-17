@@ -5,6 +5,7 @@
     "extract.ts",
     "graphviz.ts",
     "helper.ts",
+    "mermaid.ts",
     "index.ts"
   ],
   "exclude": [

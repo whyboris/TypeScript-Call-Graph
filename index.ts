@@ -7,6 +7,7 @@ import { processFiles } from './extract';
 import { convertForArc } from './arc';
 import { convertForCascade } from './cascade';
 import { convertForGraphViz } from './graphviz';
+import { convertForMermaid } from './mermaid';
 import { showHelpMessage, showServerRunning } from './helper';
 
 const myArgs = process.argv.slice(2);
@@ -63,11 +64,13 @@ function startServer(allFunctions: string[], functionMap: Map<string, string[]>)
   app.use('/arc',      express.static(path.join(__dirname, '..', 'graphing/arc')));
   app.use('/cascade',  express.static(path.join(__dirname, '..', 'graphing/cascade')));
   app.use('/graphviz', express.static(path.join(__dirname, '..', 'graphing/graphviz')));
+  app.use('/mermaid',  express.static(path.join(__dirname, '..', 'graphing/mermaid')));
   app.use('/vendor',   express.static(path.join(__dirname, '..', 'graphing/vendor')));
 
   app.get('/arcAPI',      function (req, res) { res.json(convertForArc(allFunctions, functionMap)) });
   app.get('/cascadeAPI',  function (req, res) { res.json(convertForCascade(functionMap))  });
   app.get('/graphvizAPI', function (req, res) { res.json(convertForGraphViz(functionMap)) });
+  app.get('/mermaidAPI',  function (req, res) { res.json(convertForMermaid(functionMap)) });
 
   app.listen(3000)
 
