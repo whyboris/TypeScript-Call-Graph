@@ -18,14 +18,19 @@
     "tcg": "./bin/index.js"
   },
   "scripts": {
-    "start": "tsc && mv index.js bin/index.js && mv extract.js bin/extract.js && node bin/index.js *.ts",
-    "test": "node bin/index.js *.ts",
+    "start": "tsc && node bin/index.js index.ts",
+    "test": "node bin/index.js index.ts extract.ts cascade.ts graphviz.ts helper.ts xyz.ts",
     "global": "npm install -g ."
   },
   "dependencies": {
     "@types/node": "14.0.11",
+    "d3-graphviz": "3.1.0",
+    "express": "4.17.1",
+    "graphviz": "0.0.9",
     "inquirer": "7.1.0",
     "kleur": "3.0.3",
+    "mermaid": "^8.5.2",
+    "open": "7.0.4",
     "typescript": "3.9.5"
   },
   "devDependencies": {}

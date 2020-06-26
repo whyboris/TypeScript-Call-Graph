@@ -1,9 +1,17 @@
 {
   "files": [
-    "index.ts",
-    "extract.ts"
+    "arc.ts",
+    "cascade.ts",
+    "extract.ts",
+    "graphviz.ts",
+    "helper.ts",
+    "mermaid.ts",
+    "index.ts"
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "compilerOptions": {
+    "outDir": "./bin"
+  }
 }

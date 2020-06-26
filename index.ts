@@ -1,8 +1,14 @@
 #!/usr/bin/env node
 
+import open = require('open');
+
 import { processFiles } from './extract';
 
-const { green, bold } = require('kleur');
+import { convertForArc } from './arc';
+import { convertForCascade } from './cascade';
+import { convertForGraphViz } from './graphviz';
+import { convertForMermaid } from './mermaid';
+import { showHelpMessage, showServerRunning } from './helper';
 
 const myArgs = process.argv.slice(2);
 
@@ -33,25 +39,52 @@ if (withoutNodeModules.length) {
   showHelpMessage();
 }
 
-function showHelpMessage(): void {
-  console.log(green('╭───────────────────────────╮'));
-  console.log(green('│                           │'));
-  console.log(green('│   ') + bold('Typescript Node Graph') + green('   │'));
-  console.log(green('│                           │'));
-  console.log(green('╰───────────────────────────╯'));
-
-  console.log('Please provide a list of input files and/or folders');
-  console.log('e.g. `'
-    + green('myFile.ts') + '`, `'
-    + green('*') + '`, `'
-    + green('**/*') + '`, `'
-    + green('myFolder/*') + '`');
-  console.log('or any combination of the above, like `' + green('myFile.ts myFolder/*') + '`');
-}
-
 /**
  * If user confirms the files they want to analyze, proceed
  */
 function proceed(): void {
-  processFiles(withoutNodeModules);
+  const functions = processFiles(withoutNodeModules);
+
+  startServer(functions.all, functions.called);
+}
+
+/**
+ * Start Express server with static files and API endpoints
+ * @param functionMap
+ */
+function startServer(allFunctions: string[], functionMap: Map<string, string[]>): void {
+
+  const express = require('express');
+  const app = express();
+
+  const path = require('path');
+
+  app.use(express.static(path.join(__dirname, '..', 'graphing')));
+
+  app.use('/arc',      express.static(path.join(__dirname, '..', 'graphing/arc')));
+  app.use('/cascade',  express.static(path.join(__dirname, '..', 'graphing/cascade')));
+  app.use('/graphviz', express.static(path.join(__dirname, '..', 'graphing/graphviz')));
+  app.use('/mermaid',  express.static(path.join(__dirname, '..', 'graphing/mermaid')));
+  app.use('/vendor',   express.static(path.join(__dirname, '..', 'graphing/vendor')));
+
+  // API endpoints
+  app.use('/all',         function (req, res) { res.json(allFunctions) });
+
+  app.get('/arcAPI',      function (req, res) { res.json(convertForArc(allFunctions, functionMap)) });
+
+  app.get('/cascadeAPI/:startFunc',  function (req, res) {
+    res.json(convertForCascade(functionMap, req.params.startFunc))
+  });
+
+  app.get('/graphvizAPI', function (req, res) { res.json(convertForGraphViz(functionMap)) });
+
+  app.get('/mermaidAPI',  function (req, res) { res.json(convertForMermaid(functionMap)) });
+
+  app.listen(3000)
+
+  const filePath: string = 'http://localhost:3000';
+
+  showServerRunning(filePath);
+
+  open(filePath);
 }

@@ -3,6 +3,7 @@ exports.__esModule = true;
 exports.processFiles = void 0;
 var ts = require("typescript");
 var fs = require('fs');
+var _a = require('kleur'), green = _a.green, red = _a.red;
 var functionsToIgnore = []; // optionally ['require', 'parseInt', 'exec', 'reject', 'resolve'];
 var allFunctions = [];
 var calledFunctions = new Map();
@@ -83,18 +84,29 @@ function processFiles(filenames) {
     // then do recursion for each
     filenames.forEach(function (filename) {
         var rootNodes = [];
-        var codeAsString = fs.readFileSync(filename).toString();
-        var sourceFile = ts.createSourceFile(filename, codeAsString, ts.ScriptTarget.Latest);
-        sourceFile.forEachChild(function (child) {
-            rootNodes.push(child);
-        });
-        rootNodes.forEach(function (node) {
-            currentFunction = undefined;
-            extractFunctionCalls(node, sourceFile, 1);
-        });
+        var codeAsString;
+        var skipFile = false;
+        try {
+            codeAsString = fs.readFileSync(filename).toString();
+        }
+        catch (err) {
+            console.log('File', green(filename), red('not found!'), ' - skipping');
+            skipFile = true;
+        }
+        if (!skipFile) {
+            var sourceFile_1 = ts.createSourceFile(filename, codeAsString, ts.ScriptTarget.Latest);
+            sourceFile_1.forEachChild(function (child) {
+                rootNodes.push(child);
+            });
+            rootNodes.forEach(function (node) {
+                currentFunction = undefined;
+                extractFunctionCalls(node, sourceFile_1, 1);
+            });
+        }
     });
     calledFunctions["delete"](undefined);
     // Output
+    console.log('');
     console.log('======================================');
     console.log(allFunctions);
     console.log('--------------------------------------');
@@ -108,7 +120,15 @@ function processFiles(filenames) {
         calledFunctions.set(key, value.filter(function (calledFunc) {
             return allFunctions.includes(calledFunc);
         }));
+        if (!calledFunctions.get(key).length) {
+            calledFunctions["delete"](key);
+        }
     });
     console.log(calledFunctions);
+    var functions = {
+        all: allFunctions,
+        called: calledFunctions
+    };
+    return functions;
 }
 exports.processFiles = processFiles;

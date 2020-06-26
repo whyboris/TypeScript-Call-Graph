@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<head>
+  <title>TypeScript Call Graph</title>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+
+<body>
+
+  <script src="/vendor/d3.v5.min.js"></script>   <!-- d3js.org/d3.v5.min.js -->
+  <script src="/vendor/index.min.js"></script>   <!-- @hpcc-js/wasm@0.3.11 -->
+  <script src="/vendor/d3-graphviz.js"></script> <!-- d3-graphviz@3.0.5 -->
+
+  <div id="graph" style="text-align: center;"></div>
+
+  <script>
+    const url = '../graphvizAPI';
+
+    fetch(url).then((response) => {
+      response.text().then((data) => {
+        d3.select("#graph").graphviz()
+          .renderDot(JSON.parse(data));
+      });
+    });
+  </script>
+</body>

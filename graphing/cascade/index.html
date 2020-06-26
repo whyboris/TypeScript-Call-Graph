@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<head>
+  <title>TypeScript Call Graph</title>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <style>
+    .observablehq--inspect {
+      display: none;
+    }
+
+    .heading {
+      font-family: sans-serif;
+      margin: 20px 5px 0;
+    }
+
+    a {
+      color: black;
+      display: block;
+      font-family: sans-serif;
+      font-size: 12px;
+      margin: 10px;
+      text-decoration: none;
+    }
+
+    #functionsList {
+      position: absolute;
+      background: white;
+      border-right: 1px solid #888888;
+    }
+
+    #graphDiv {
+      margin-left: 200px;
+    }
+
+    .home-button {
+      margin-top: 20px;
+    }
+
+    .home-button svg {
+      transition-duration: 0.5s;
+    }
+
+    .home-button:hover svg {
+      fill: 4955dc;
+      transform: scale(1.5);
+    }
+
+    .download-this {
+      display: inline;
+      text-align: right;
+    }
+
+    .download-link {
+      width: 30px;
+      display: inline-block;
+    }
+
+    #downloadLinks {
+      float: right;
+      margin-top: 30px;
+      margin-right: 20px;
+    }
+
+    #downloadLinks a {
+      transition-duration: 0.5s;
+      margin: 5px;
+    }
+
+    #downloadLinks a:hover {
+      transform: scale(1.5);
+    }
+  </style>
+</head>
+
+<body>
+
+  <a class="home-button" href="../index.html">
+    <svg fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16px" height="16px"><path d="M 8 1.320313 L 0.660156 8.132813 L 1.339844 8.867188 L 2 8.253906 L 2 14 L 7 14 L 7 9 L 9 9 L 9 14 L 14 14 L 14 8.253906 L 14.660156 8.867188 L 15.339844 8.132813 Z M 8 2.679688 L 13 7.328125 L 13 13 L 10 13 L 10 8 L 6 8 L 6 13 L 3 13 L 3 7.328125 Z"/></svg>
+  </a>
+
+  <div id="functionsList"></div>
+
+  <div id="graphDiv"></div>
+
+  <div id="downloadLinks">
+
+    <a id="downloadPNG" class="download-link" href="../index.html">
+      <svg viewBox="0 0 128 128"><g><path d="M90.249,107.596H40.916c-3.584,0-6.5-2.916-6.5-6.5V30.861c0-3.584,2.916-6.5,6.5-6.5h28.726   c3.152,0,7.367,1.746,9.596,3.975l13.537,13.537c2.229,2.229,3.975,6.444,3.975,9.596v49.627   C96.749,104.68,93.833,107.596,90.249,107.596z M40.916,27.361c-1.93,0-3.5,1.57-3.5,3.5v70.235c0,1.93,1.57,3.5,3.5,3.5h49.333   c1.93,0,3.5-1.57,3.5-3.5V51.469c0-2.333-1.446-5.826-3.096-7.475L77.116,30.457c-1.649-1.649-5.142-3.096-7.475-3.096H40.916z" style="fill: rgb(49, 51, 53);"></path></g><g><path d="M90.249,47.969H79.642c-3.584,0-6.5-2.916-6.5-6.5V30.861c0-3.013,1.617-4.082,3.003-4.082   c1.02,0,2.06,0.524,3.093,1.557l13.537,13.537c1.886,1.886,1.657,3.398,1.354,4.132C93.823,46.738,92.916,47.969,90.249,47.969z    M76.284,29.827c-0.062,0.16-0.143,0.476-0.143,1.034v10.608c0,1.93,1.57,3.5,3.5,3.5h10.607c0.558,0,0.874-0.081,1.034-0.143   c-0.069-0.157-0.235-0.438-0.63-0.832L77.116,30.457C76.722,30.063,76.441,29.896,76.284,29.827z" style="fill: rgb(49, 51, 53);"></path></g><g><path d="M95.249,36.905c-0.43,0-0.839-0.184-1.123-0.506l-10.367-11.72c-0.392-0.442-0.487-1.072-0.244-1.61   c0.242-0.538,0.777-0.884,1.367-0.884h3.714v-9.78c0-0.829,0.672-1.5,1.5-1.5h10.304c0.828,0,1.5,0.671,1.5,1.5v9.78h3.717   c0.59,0,1.125,0.346,1.367,0.884c0.243,0.538,0.147,1.168-0.244,1.61l-10.367,11.72C96.088,36.721,95.679,36.905,95.249,36.905z    M88.211,25.186l7.038,7.956l7.038-7.956h-1.888c-0.828,0-1.5-0.671-1.5-1.5v-9.78h-7.304v9.78c0,0.829-0.672,1.5-1.5,1.5H88.211z" style="fill: rgb(238, 62, 54);"></path></g><g></g><g></g>
+        <rect x="18" y="57" height="40" width="100" style="fill: rgba(255,255,255,0.5);"></rect>
+        <text x="18" y="95" style="font: bold 46px sans-serif; fill: red; box-shadow: 0 0 10px white; background-color: green; display: block">PNG</text>
+      </svg>
+    </a>
+
+    <a id="downloadSVG" class="download-link" href="../index.html">
+      <svg viewBox="0 0 128 128"><g><path d="M90.249,107.596H40.916c-3.584,0-6.5-2.916-6.5-6.5V30.861c0-3.584,2.916-6.5,6.5-6.5h28.726   c3.152,0,7.367,1.746,9.596,3.975l13.537,13.537c2.229,2.229,3.975,6.444,3.975,9.596v49.627   C96.749,104.68,93.833,107.596,90.249,107.596z M40.916,27.361c-1.93,0-3.5,1.57-3.5,3.5v70.235c0,1.93,1.57,3.5,3.5,3.5h49.333   c1.93,0,3.5-1.57,3.5-3.5V51.469c0-2.333-1.446-5.826-3.096-7.475L77.116,30.457c-1.649-1.649-5.142-3.096-7.475-3.096H40.916z" style="fill: rgb(49, 51, 53);"></path></g><g><path d="M90.249,47.969H79.642c-3.584,0-6.5-2.916-6.5-6.5V30.861c0-3.013,1.617-4.082,3.003-4.082   c1.02,0,2.06,0.524,3.093,1.557l13.537,13.537c1.886,1.886,1.657,3.398,1.354,4.132C93.823,46.738,92.916,47.969,90.249,47.969z    M76.284,29.827c-0.062,0.16-0.143,0.476-0.143,1.034v10.608c0,1.93,1.57,3.5,3.5,3.5h10.607c0.558,0,0.874-0.081,1.034-0.143   c-0.069-0.157-0.235-0.438-0.63-0.832L77.116,30.457C76.722,30.063,76.441,29.896,76.284,29.827z" style="fill: rgb(49, 51, 53);"></path></g><g><path d="M95.249,36.905c-0.43,0-0.839-0.184-1.123-0.506l-10.367-11.72c-0.392-0.442-0.487-1.072-0.244-1.61   c0.242-0.538,0.777-0.884,1.367-0.884h3.714v-9.78c0-0.829,0.672-1.5,1.5-1.5h10.304c0.828,0,1.5,0.671,1.5,1.5v9.78h3.717   c0.59,0,1.125,0.346,1.367,0.884c0.243,0.538,0.147,1.168-0.244,1.61l-10.367,11.72C96.088,36.721,95.679,36.905,95.249,36.905z    M88.211,25.186l7.038,7.956l7.038-7.956h-1.888c-0.828,0-1.5-0.671-1.5-1.5v-9.78h-7.304v9.78c0,0.829-0.672,1.5-1.5,1.5H88.211z" style="fill: rgb(238, 62, 54);"></path></g><g></g><g></g>
+        <rect x="18" y="57" height="40" width="100" style="fill: rgba(255,255,255,0.5);"></rect>
+        <text x="18" y="95" style="font: bold 46px sans-serif; fill: red; box-shadow: 0 0 10px white">SVG</text>
+      </svg>
+    </a>
+
+  </div>
+
+  <script>
+
+    fetch('http://localhost:3000/all')
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+
+        data.sort();
+
+        const everyFunc = data.map(function (func) {
+              return '<a href="index.html?start=' + func + '">' + func + '</a>';
+            }).join('');
+
+        document.getElementById('functionsList').innerHTML = everyFunc;
+
+      });
+
+  </script>
+
+  <script type="module">
+    import define from "./graph.js";
+    import { Runtime, Library, Inspector } from "/vendor/runtime.js";
+
+    const runtime = new Runtime();
+
+    const temp = document.getElementById('graphDiv');
+
+    const main = runtime.module(define, Inspector.into(temp));
+
+    // Save to SVG & PNG
+    setTimeout(() => {
+      // Thank you @gustavohenke for the Gist: https://gist.github.com/gustavohenke/9073132
+      const svg = document.querySelector("#graphDiv svg");
+      const svgData = new XMLSerializer().serializeToString(svg);
+
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      const svgSize = svg.getBoundingClientRect();
+      canvas.width = svgSize.width;
+      canvas.height = svgSize.height;
+
+      const img = document.createElement("img");
+      img.setAttribute("src", "data:image/svg+xml;base64," + btoa(svgData));
+
+      img.onload = function () {
+        ctx.drawImage(img, 0, 0);
+
+        const pngBase64 = canvas.toDataURL("image/png");
+
+        const myPNG = document.getElementById('downloadPNG');
+        myPNG.download = "callgraph.png";
+        myPNG.href = pngBase64;
+
+        const svgBase64 = "data:image/svg+xml;base64," + btoa(svgData);
+
+        const mySVG = document.getElementById('downloadSVG');
+        mySVG.download = "callgraph.svg";
+        mySVG.href = svgBase64;
+
+      };
+
+    }, 350);
+
+
+  </script>
+</body>
