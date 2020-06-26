@@ -2,7 +2,9 @@
 
 This **CLI** will create an interactive graph of all the functions and their calls in the TypeScript files you provide.
 
-⚠️ this is a work in progress 🚧
+⚠️ this is a work in progress 🚧 more visualizations are coming soon
+
+![image](https://user-images.githubusercontent.com/17264277/85908941-62ba6d00-b7e5-11ea-8e50-2686990aa4f5.png)
 
 ## How to use
 
