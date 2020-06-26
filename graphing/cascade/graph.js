@@ -2,7 +2,20 @@
 export default function define(runtime, observer) {
   const main = runtime.module();
 
-  main.builtin("FileAttachment", runtime.fileAttachments(() => new URL("http://localhost:3000/cascadeAPI", import.meta.url)));
+  let graphData;
+
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const startFunction = urlParams.get('start')
+
+  fetch('http://localhost:3000/cascadeAPI/' + startFunction)
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      graphData = data;
+    });
+
 
   main.variable(observer()).define(["html"], function(html) {
     return (
@@ -64,13 +77,7 @@ export default function define(runtime, observer) {
 
   main.variable(observer("data")).define("data", ["d3"], function (d3) {
 
-    // console.log(main);
-    // console.log(main._scope.get('temporaryHackName')._value);
-    // levels = JSON.parse('[[{"id":"abc"}],[{"id":"abc2","parents":["abc"]},{"id":"abc3"}],[{"id": "lol", "parents": ["abc3", "abc2"]}]]');
-
-    let levels = main._scope.get('temporaryHackName')._value;
-
-    // console.log(levels);
+    let levels = graphData;
 
     // precompute level depth
     levels.forEach((l, i) => l.forEach((n) => (n.level = i)));
@@ -240,10 +247,6 @@ export default function define(runtime, observer) {
 
   main.variable(observer("d3")).define("d3", ["require"], function (require) {
     return require("d3-scale", "d3-scale-chromatic", "d3-array");
-  });
-
-  main.variable(observer()).define("temporaryHackName", ["FileAttachment"], function (lol) {
-    return lol().json()
   });
 
   return main;

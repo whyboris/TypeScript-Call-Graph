@@ -60,15 +60,16 @@ function generateNextLevel(parents, stackDepth) {
 /**
  * Convert the call map to format D3 wants
  * @param calledFunctions
+ * @param startFunction -- string of the function name we want to use as start of call graph
  */
-function convertForCascade(calledFunctions) {
+function convertForCascade(calledFunctions, startFunction) {
     myMap = calledFunctions;
     final = [];
     calledAlready = [];
     // 1st case -- handle manually
-    final.push([{ id: 'proceed' }]);
+    final.push([{ id: startFunction }]);
     // all next cases generate automatically
-    generateNextLevel(['proceed'], 10);
+    generateNextLevel([startFunction], 10);
     return final;
 }
 exports.convertForCascade = convertForCascade;

@@ -52,7 +52,9 @@ function startServer(allFunctions, functionMap) {
     app.use('/mermaid', express.static(path.join(__dirname, '..', 'graphing/mermaid')));
     app.use('/vendor', express.static(path.join(__dirname, '..', 'graphing/vendor')));
     app.get('/arcAPI', function (req, res) { res.json(arc_1.convertForArc(allFunctions, functionMap)); });
-    app.get('/cascadeAPI', function (req, res) { res.json(cascade_1.convertForCascade(functionMap)); });
+    app.get('/cascadeAPI/:startFunc', function (req, res) {
+        res.json(cascade_1.convertForCascade(functionMap, req.params.startFunc));
+    });
     app.get('/graphvizAPI', function (req, res) { res.json(graphviz_1.convertForGraphViz(functionMap)); });
     app.get('/mermaidAPI', function (req, res) { res.json(mermaid_1.convertForMermaid(functionMap)); });
     app.listen(3000);
