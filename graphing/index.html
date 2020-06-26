@@ -13,7 +13,7 @@
     WELCOME !!!
   </h2>
 
-  <a href="cascade/index.html?start=proceed">Cascade</a>
+  <a id="cascade" href="cascade/index.html?start=pleaseSelectFunction">Cascade</a>
 
   <br>
 
@@ -24,5 +24,19 @@
   <br>
 
   <a href="mermaid/index.html">Mermaid</a>
+
+  <script>
+
+    fetch('http://localhost:3000/all')
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        data.sort();
+        const cascade = document.getElementById('cascade');
+        cascade.href = 'cascade/index.html?start=' + data[0];
+      });
+
+  </script>
 
 </body>
