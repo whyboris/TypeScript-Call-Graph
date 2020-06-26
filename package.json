@@ -1,6 +1,6 @@
 {
   "name": "typescript-call-graph",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Create a call graph of your TypeScript files",
   "keywords": [
     "TypeScript",
