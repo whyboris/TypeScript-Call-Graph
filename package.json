@@ -4,14 +4,15 @@
   "description": "Create a call graph of your TypeScript files",
   "keywords": [
     "TypeScript",
-    "call graph"
+    "call graph",
+    "callgraph"
   ],
   "author": "Boris Yakubchik",
   "homepage": "https://yboris.dev",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/whyboris/TypeScript-Call-Graph"
+    "url": "https://github.com/whyboris/TypeScript-Call-Graph.git"
   },
   "main": "bin/index.js",
   "bin": {
@@ -27,9 +28,9 @@
     "d3-graphviz": "3.1.0",
     "express": "4.17.1",
     "graphviz": "0.0.9",
-    "inquirer": "7.1.0",
-    "kleur": "3.0.3",
-    "mermaid": "^8.5.2",
+    "inquirer": "7.2.0",
+    "kleur": "4.0.2",
+    "mermaid": "8.5.2",
     "open": "7.0.4",
     "typescript": "3.9.5"
   },
