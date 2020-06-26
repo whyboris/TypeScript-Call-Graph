@@ -51,6 +51,8 @@ function startServer(allFunctions, functionMap) {
     app.use('/graphviz', express.static(path.join(__dirname, '..', 'graphing/graphviz')));
     app.use('/mermaid', express.static(path.join(__dirname, '..', 'graphing/mermaid')));
     app.use('/vendor', express.static(path.join(__dirname, '..', 'graphing/vendor')));
+    // API endpoints
+    app.use('/all', function (req, res) { res.json(allFunctions); });
     app.get('/arcAPI', function (req, res) { res.json(arc_1.convertForArc(allFunctions, functionMap)); });
     app.get('/cascadeAPI/:startFunc', function (req, res) {
         res.json(cascade_1.convertForCascade(functionMap, req.params.startFunc));

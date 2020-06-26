@@ -14,24 +14,61 @@
     }
 
     a {
+      color: black;
       display: block;
-      margin: 10px;
       font-family: sans-serif;
       font-size: 12px;
+      margin: 10px;
+      text-decoration: none;
+    }
+
+    #functionsList {
+      position: absolute;
+      background: white;
+      border-right: 1px solid black;
+    }
+
+    #graphDiv {
+      margin-left: 200px;
     }
   </style>
 </head>
 
 <body>
 
-  <div id="graph" style="text-align: center;"></div>
+  <div id="functionsList"></div>
+
+  <div id="graphDiv"></div>
+
+  <script>
+
+    fetch('http://localhost:3000/all')
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+
+        data.sort();
+
+        const everyFunc = data.map(function (func) {
+              return '<a href="index.html?start=' + func + '">' + func + '</a>';
+            }).join('');
+
+        document.getElementById('functionsList').innerHTML = everyFunc;
+
+      });
+
+  </script>
 
   <script type="module">
     import define from "./graph.js";
     import { Runtime, Library, Inspector } from "/vendor/runtime.js";
 
     const runtime = new Runtime();
-    const main = runtime.module(define, Inspector.into(document.body));
+
+    const temp = document.getElementById('graphDiv');
+
+    const main = runtime.module(define, Inspector.into(temp));
 
     // Save to SVG & PNG
     setTimeout(() => {
@@ -58,7 +95,7 @@
         a.download = "callgraph.png";
         a.href = pngBase64;
         a.innerHTML = "download as PNG";
-        document.body.appendChild(a);
+        temp.appendChild(a);
 
         const svgBase64 = "data:image/svg+xml;base64," + btoa(svgData);
 
@@ -66,7 +103,7 @@
         b.download = "callgraph.svg";
         b.href = svgBase64;
         b.innerHTML = "download as SVG";
-        document.body.appendChild(b);
+        temp.appendChild(b);
 
       };
 

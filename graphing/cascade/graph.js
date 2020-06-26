@@ -17,14 +17,14 @@ export default function define(runtime, observer) {
     });
 
 
-  main.variable(observer()).define(["html"], function(html) {
-    return (
-      html`<div class="heading">Call Graph</div>`
-    )
-  });
+  // main.variable(observer()).define(["html"], function(html) {
+  //   return (
+  //     html`<div class="heading">Call Graph</div>`
+  //   )
+  // });
 
   main.variable(observer()).define(["svg", "width", "data", "color"], function (svg, width, data, color) {
-    return svg`<svg width="${width}" height="${data.layout.height}">
+    return svg`<svg width="${width - 200}" height="${data.layout.height}">
 
       <style>
         text {
