@@ -34,6 +34,20 @@ function extractFunctionCalls(node: ts.Node, sourceFile: ts.SourceFile, indentLe
     });
   }
 
+  // Arrow function
+  if (
+    ts.isVariableDeclaration(node) &&
+    node.initializer &&
+    ts.isArrowFunction(node.initializer) &&
+    indentLevel === 3
+  ) {
+    const child = node.getChildAt(0, sourceFile);
+    if (ts.isIdentifier(child)) {
+      const declaredFunction: string = child.getText(sourceFile);
+      updateDeclaredFunctions(declaredFunction);
+    }
+  }
+
   // First child must be `Identifier`
   // examples of what gets skipped: `fs.readFile('lol.json')` or `ipc.on('something', () => {})`
   if (ts.isCallExpression(node)) {
