@@ -27,7 +27,7 @@ if (withoutNodeModules.length) {
       type: 'confirm',
       name: 'want',
       message: 'Are these the files you want to analyze?',
-      default: false
+      default: true
     }])
     .then(answer => {
       if (answer.want) {
