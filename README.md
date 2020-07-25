@@ -1,3 +1,5 @@
+![npm](https://img.shields.io/npm/v/typescript-call-graph)
+
 # TypeScript Call Graph
 
 This **CLI** will create an interactive graph of all the functions and their calls in the TypeScript files you provide.
@@ -29,6 +31,8 @@ tcg myFile.ts folder/* anotherFolder/**/*
 Clone repository. Edit `index.ts` and/or `extract.ts` and run `npm start` to build changes, `npm test` to run CLI against files in this repository.
 
 Suggestions or PRs for how to improve this CLI are very welcome 	🙇
+
+You may also edit this repository as you'd like and install your custom version of `tcg` command with `npm run global`
 
 ### Thank you
 
