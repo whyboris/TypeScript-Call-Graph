@@ -1,4 +1,4 @@
-![npm](https://img.shields.io/npm/v/typescript-call-graph)
+[![npm](https://img.shields.io/npm/v/typescript-call-graph)](https://www.npmjs.com/package/typescript-call-graph)
 
 # TypeScript Call Graph
 
