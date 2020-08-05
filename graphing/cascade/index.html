@@ -103,7 +103,7 @@
 
   <script>
 
-    fetch('http://localhost:3000/all')
+    fetch(`${window.location.origin}/all`)
       .then((response) => {
         return response.json();
       })

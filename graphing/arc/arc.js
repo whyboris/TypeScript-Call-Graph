@@ -1,7 +1,7 @@
 // https://observablehq.com/@d3/arc-diagram@265
 export default function define(runtime, observer) {
   const main = runtime.module();
-  const fileAttachments = new Map([["arcData.json", new URL("http://localhost:3000/arcAPI", import.meta.url)]]);
+  const fileAttachments = new Map([["arcData.json", new URL(`${window.location.origin}/arcAPI`, import.meta.url)]]);
   main.builtin("FileAttachment", runtime.fileAttachments(name => fileAttachments.get(name)));
   main.variable(observer()).define(["md"], function (md) {
     return (
