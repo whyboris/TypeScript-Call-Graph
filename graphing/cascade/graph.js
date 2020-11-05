@@ -8,7 +8,7 @@ export default function define(runtime, observer) {
   const urlParams = new URLSearchParams(queryString);
   const startFunction = urlParams.get('start')
 
-  fetch('http://localhost:3000/cascadeAPI/' + startFunction)
+  fetch(`${window.location.origin}/cascadeAPI/` + startFunction)
     .then((response) => {
       return response.json();
     })
