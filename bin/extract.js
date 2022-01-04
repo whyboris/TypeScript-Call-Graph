@@ -29,6 +29,17 @@ function extractFunctionCalls(node, sourceFile, indentLevel) {
             }
         });
     }
+    // Arrow function
+    if (ts.isVariableDeclaration(node) &&
+        node.initializer &&
+        ts.isArrowFunction(node.initializer) &&
+        indentLevel === 3) {
+        var child = node.getChildAt(0, sourceFile);
+        if (ts.isIdentifier(child)) {
+            var declaredFunction = child.getText(sourceFile);
+            updateDeclaredFunctions(declaredFunction);
+        }
+    }
     // First child must be `Identifier`
     // examples of what gets skipped: `fs.readFile('lol.json')` or `ipc.on('something', () => {})`
     if (ts.isCallExpression(node)) {
@@ -51,7 +62,7 @@ function logNode(node, sourceFile, indentLevel) {
     var indentation = "-".repeat(indentLevel);
     var syntaxKind = ts.SyntaxKind[node.kind];
     var nodeText = node.getText(sourceFile).split('\n')[0];
-    console.log("" + indentation + syntaxKind + ": " + nodeText);
+    console.log("".concat(indentation).concat(syntaxKind, ": ").concat(nodeText));
 }
 /**
  * Update `allFunctions` and `currentFunction`
