@@ -19,7 +19,7 @@ if (withoutNodeModules.length) {
             type: 'confirm',
             name: 'want',
             message: 'Are these the files you want to analyze?',
-            "default": false
+            "default": true
         }])
         .then(function (answer) {
         if (answer.want) {
@@ -28,13 +28,13 @@ if (withoutNodeModules.length) {
     });
 }
 else {
-    helper_1.showHelpMessage();
+    (0, helper_1.showHelpMessage)();
 }
 /**
  * If user confirms the files they want to analyze, proceed
  */
 function proceed() {
-    var functions = extract_1.processFiles(withoutNodeModules);
+    var functions = (0, extract_1.processFiles)(withoutNodeModules);
     startServer(functions.all, functions.called);
 }
 /**
@@ -53,14 +53,14 @@ function startServer(allFunctions, functionMap) {
     app.use('/vendor', express.static(path.join(__dirname, '..', 'graphing/vendor')));
     // API endpoints
     app.use('/all', function (req, res) { res.json(allFunctions); });
-    app.get('/arcAPI', function (req, res) { res.json(arc_1.convertForArc(allFunctions, functionMap)); });
+    app.get('/arcAPI', function (req, res) { res.json((0, arc_1.convertForArc)(allFunctions, functionMap)); });
     app.get('/cascadeAPI/:startFunc', function (req, res) {
-        res.json(cascade_1.convertForCascade(functionMap, req.params.startFunc));
+        res.json((0, cascade_1.convertForCascade)(functionMap, req.params.startFunc));
     });
-    app.get('/graphvizAPI', function (req, res) { res.json(graphviz_1.convertForGraphViz(functionMap)); });
-    app.get('/mermaidAPI', function (req, res) { res.json(mermaid_1.convertForMermaid(functionMap)); });
+    app.get('/graphvizAPI', function (req, res) { res.json((0, graphviz_1.convertForGraphViz)(functionMap)); });
+    app.get('/mermaidAPI', function (req, res) { res.json((0, mermaid_1.convertForMermaid)(functionMap)); });
     app.listen(3000);
     var filePath = 'http://localhost:3000';
-    helper_1.showServerRunning(filePath);
+    (0, helper_1.showServerRunning)(filePath);
     open(filePath);
 }
