@@ -30,7 +30,7 @@
     "graphviz": "0.0.9",
     "inquirer": "8.2.0",
     "kleur": "4.1.4",
-    "mermaid": "8.13.8",
+    "mermaid": "9.1.2",
     "open": "8.4.0",
     "typescript": "4.5.4"
   },
