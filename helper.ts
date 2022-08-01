@@ -6,7 +6,7 @@ const { green, bold } = require('kleur');
 export function showHelpMessage(): void {
   console.log(green('╭───────────────────────────╮'));
   console.log(green('│                           │'));
-  console.log(green('│   ') + bold('Typescript Node Graph') + green('   │'));
+  console.log(green('│   ') + bold('Typescript Call Graph') + green('   │'));
   console.log(green('│                           │'));
   console.log(green('╰───────────────────────────╯'));
 
