@@ -8,7 +8,7 @@ var _a = require('kleur'), green = _a.green, bold = _a.bold;
 function showHelpMessage() {
     console.log(green('╭───────────────────────────╮'));
     console.log(green('│                           │'));
-    console.log(green('│   ') + bold('Typescript Node Graph') + green('   │'));
+    console.log(green('│   ') + bold('Typescript Call Graph') + green('   │'));
     console.log(green('│                           │'));
     console.log(green('╰───────────────────────────╯'));
     console.log('Please provide a list of input files and/or folders');
