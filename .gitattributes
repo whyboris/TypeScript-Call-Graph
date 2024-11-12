@@ -1,0 +1,4 @@
+# we want to ensure we're using LF instead of CR+LF as line-endings
+# in the published package, otherwise the bin scripts won't work with
+# yarn - see https://github.com/yarnpkg/yarn/issues/5480
+* text=auto eol=lf
