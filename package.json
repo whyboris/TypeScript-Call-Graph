@@ -25,12 +25,12 @@
   },
   "dependencies": {
     "@types/node": "18.11.3",
-    "d3-graphviz": "4.4.0",
+    "d3-graphviz": "5.0.2",
     "express": "4.18.2",
     "graphviz": "0.0.9",
     "inquirer": "8.2.3",
     "kleur": "4.1.5",
-    "mermaid": "9.1.7",
+    "mermaid": "9.4.0",
     "open": "8.4.0",
     "typescript": "4.8.4"
   },
