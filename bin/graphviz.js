@@ -1,6 +1,6 @@
 "use strict";
-exports.__esModule = true;
-exports.convertForGraphViz = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.convertForGraphViz = convertForGraphViz;
 var graphviz = require('graphviz');
 function convertForGraphViz(functionMap) {
     var g = graphviz.digraph("G");
@@ -15,4 +15,3 @@ function convertForGraphViz(functionMap) {
     });
     return g.to_dot();
 }
-exports.convertForGraphViz = convertForGraphViz;

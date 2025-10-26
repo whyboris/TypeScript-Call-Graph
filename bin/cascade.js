@@ -8,8 +8,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-exports.__esModule = true;
-exports.convertForCascade = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.convertForCascade = convertForCascade;
 // Some globals
 var myMap;
 var final = [];
@@ -74,4 +74,3 @@ function convertForCascade(calledFunctions, startFunction) {
     generateNextLevel([startFunction], 10);
     return final;
 }
-exports.convertForCascade = convertForCascade;

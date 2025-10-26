@@ -1,6 +1,6 @@
 "use strict";
-exports.__esModule = true;
-exports.convertForMermaid = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.convertForMermaid = convertForMermaid;
 function convertForMermaid(functionMap) {
     var connections = [];
     functionMap.forEach(function (childArr, key) {
@@ -10,4 +10,3 @@ function convertForMermaid(functionMap) {
     });
     return connections;
 }
-exports.convertForMermaid = convertForMermaid;
