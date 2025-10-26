@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
-exports.__esModule = true;
-var open = require("open");
+Object.defineProperty(exports, "__esModule", { value: true });
+var open_1 = require("open");
 var extract_1 = require("./extract");
 var arc_1 = require("./arc");
 var cascade_1 = require("./cascade");
@@ -11,15 +11,15 @@ var helper_1 = require("./helper");
 var myArgs = process.argv.slice(2);
 var onlyTypescript = myArgs.filter(function (file) { return file.endsWith('ts'); });
 var withoutNodeModules = onlyTypescript.filter(function (file) { return !file.includes('node_modules'); });
+var inquirer_1 = require("inquirer");
 if (withoutNodeModules.length) {
     console.log(withoutNodeModules);
-    var inquirer = require('inquirer');
-    inquirer
+    inquirer_1.default
         .prompt([{
             type: 'confirm',
             name: 'want',
             message: 'Are these the files you want to analyze?',
-            "default": true
+            default: true
         }])
         .then(function (answer) {
         if (answer.want) {
@@ -62,5 +62,5 @@ function startServer(allFunctions, functionMap) {
     app.listen(3000);
     var filePath = 'http://localhost:3000';
     (0, helper_1.showServerRunning)(filePath);
-    open(filePath);
+    (0, open_1.default)(filePath);
 }

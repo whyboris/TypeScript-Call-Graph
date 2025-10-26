@@ -1,6 +1,7 @@
 "use strict";
-exports.__esModule = true;
-exports.showServerRunning = exports.showHelpMessage = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.showHelpMessage = showHelpMessage;
+exports.showServerRunning = showServerRunning;
 var _a = require('kleur'), green = _a.green, bold = _a.bold;
 /**
  * Shown when user runs `tcg` without arguments
@@ -19,7 +20,6 @@ function showHelpMessage() {
         + green('myFolder/*') + '`');
     console.log('or any combination of the above, like `' + green('myFile.ts myFolder/*') + '`');
 }
-exports.showHelpMessage = showHelpMessage;
 /**
  * Console log that server is running
  * @param filePath
@@ -32,4 +32,3 @@ function showServerRunning(filePath) {
     console.log(green('│      ') + 'Ctrl + C to quit ' + green('    │'));
     console.log(green('╰───────────────────────────╯'));
 }
-exports.showServerRunning = showServerRunning;

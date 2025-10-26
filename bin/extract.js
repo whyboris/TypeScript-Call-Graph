@@ -1,6 +1,6 @@
 "use strict";
-exports.__esModule = true;
-exports.processFiles = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.processFiles = processFiles;
 var ts = require("typescript");
 var fs = require('fs');
 var _a = require('kleur'), green = _a.green, red = _a.red;
@@ -115,7 +115,7 @@ function processFiles(filenames) {
             });
         }
     });
-    calledFunctions["delete"](undefined);
+    calledFunctions.delete(undefined);
     // Output
     console.log('');
     console.log('======================================');
@@ -132,14 +132,13 @@ function processFiles(filenames) {
             return allFunctions.includes(calledFunc);
         }));
         if (!calledFunctions.get(key).length) {
-            calledFunctions["delete"](key);
+            calledFunctions.delete(key);
         }
     });
     console.log(calledFunctions);
     var functions = {
         all: allFunctions,
-        called: calledFunctions
+        called: calledFunctions,
     };
     return functions;
 }
-exports.processFiles = processFiles;

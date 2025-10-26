@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import open = require('open');
+import open from 'open';
+import inquirer from 'inquirer';
 
 import { processFiles } from './extract';
 
@@ -19,8 +20,6 @@ const withoutNodeModules: string[] = onlyTypescript.filter(file => !file.include
 if (withoutNodeModules.length) {
 
   console.log(withoutNodeModules);
-
-  var inquirer = require('inquirer');
 
   inquirer
     .prompt([{
